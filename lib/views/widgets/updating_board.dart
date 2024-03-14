@@ -57,7 +57,7 @@ class UpdatingBoard extends StatelessWidget {
               child: Icon(
                 Icons.refresh,
                 color: AppColors.white,
-                size: size.height >= size.width ? 20.sp : 8.sp,
+                size: size.height >= size.width ? 23.sp : 10.sp,
               ),
             ),
           ],
