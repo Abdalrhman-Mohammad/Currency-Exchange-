@@ -2,6 +2,7 @@ import 'package:currency_exchange/utils/app_colors.dart';
 import 'package:currency_exchange/view_models/update_cubit/update_data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UpdatingBoard extends StatelessWidget {
@@ -14,28 +15,28 @@ class UpdatingBoard extends StatelessWidget {
     final updateDataCubit = BlocProvider.of<UpdateDataCubit>(context);
 
     return Container(
-      height: 60,
+      height: size.height >= size.width ? 60.h + 20.h : 50.h + 5.h,
       width: size.height > size.width ? size.width - 40 : (size.width - 40) / 2,
       decoration: BoxDecoration(
         color: AppColors.lightgreen,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 8,
+        padding: EdgeInsets.symmetric(
+          horizontal: 10.w,
+          vertical: 6.h,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 1),
+              padding: EdgeInsets.only(bottom: 0.h),
               child: state is UpdatingData
-                  ? const SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: CircularProgressIndicator.adaptive(),
+                  ? SizedBox(
+                      height: 16.h,
+                      width: 16.h,
+                      child: const CircularProgressIndicator.adaptive(),
                     )
                   : Text(
                       "Last Updated on " +
@@ -43,7 +44,7 @@ class UpdatingBoard extends StatelessWidget {
                               ? state.message! // be sure of null
                               : "error"),
                       style: GoogleFonts.kanit(
-                        fontSize: 12,
+                        fontSize: size.height >= size.width ? 14.sp : 7.w,
                         // fontWeight: FontWeight.bold,
                         color: AppColors.white,
                       ),
@@ -53,10 +54,10 @@ class UpdatingBoard extends StatelessWidget {
               onTap: () async {
                 updateDataCubit.getApiUpadte();
               },
-              child: const Icon(
+              child: Icon(
                 Icons.refresh,
                 color: AppColors.white,
-                size: 22,
+                size: size.height >= size.width ? 20.sp : 8.sp,
               ),
             ),
           ],

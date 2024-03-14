@@ -5,6 +5,7 @@ import 'package:currency_exchange/utils/routing/app_routes.dart';
 import 'package:currency_exchange/view_models/theme_cubit/theme_cubit.dart';
 import 'package:currency_exchange/view_models/update_cubit/update_data_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Status bar color
+  ));
   runApp(const MyApp());
 }
 

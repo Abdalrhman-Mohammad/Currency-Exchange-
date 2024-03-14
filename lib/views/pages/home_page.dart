@@ -5,6 +5,7 @@ import 'package:currency_exchange/views/widgets/updating_board.dart';
 import 'package:currency_exchange/views/widgets/view_board.dart';
 import 'package:currency_exchange/views/widgets/swap_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,28 +103,46 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             Color boardColor;
             Color textColor;
             Color titleColor;
-            if (state is ThemeInitial) {
-              final mode =
-                  Theme.of(context).scaffoldBackgroundColor == AppColors.silver
-                      ? ThemeMode.light
-                      : ThemeMode.dark;
-              boardColor = mode == ThemeMode.light
-                  ? AppColors.white
-                  : AppColors.darkSilver;
-              textColor =
-                  mode == ThemeMode.light ? AppColors.black : AppColors.white;
-              titleColor = mode == ThemeMode.light
-                  ? AppColors.grey
-                  : AppColors.darkSilver;
-            } else if (state is ThemeLight) {
-              boardColor = AppColors.white;
-              textColor = AppColors.black;
-              titleColor = AppColors.darkSilver;
+            // if (state is ThemeInitial) {
+            final mode =
+                Theme.of(context).scaffoldBackgroundColor == AppColors.silver
+                    ? ThemeMode.light
+                    : ThemeMode.dark;
+            boardColor = mode == ThemeMode.light
+                ? AppColors.white
+                : AppColors.darkSilver;
+            textColor =
+                mode == ThemeMode.light ? AppColors.black : AppColors.white;
+            titleColor =
+                mode == ThemeMode.light ? AppColors.grey : AppColors.darkSilver;
+            if (mode == ThemeMode.light) {
+              SystemChrome.setSystemUIOverlayStyle(
+                const SystemUiOverlayStyle(
+                  statusBarBrightness:
+                      Brightness.dark, // Dark text for status bar
+                  statusBarIconBrightness:
+                      Brightness.dark, // Dark text for status bar
+                ),
+              );
             } else {
-              boardColor = AppColors.darkSilver;
-              textColor = AppColors.white;
-              titleColor = AppColors.grey;
+              SystemChrome.setSystemUIOverlayStyle(
+                const SystemUiOverlayStyle(
+                  statusBarBrightness:
+                      Brightness.light, // Dark text for status bar
+                  statusBarIconBrightness:
+                      Brightness.light, // Dark text for status bar
+                ),
+              );
             }
+            // } else if (state is ThemeLight) {
+            //   boardColor = AppColors.white;
+            //   textColor = AppColors.black;
+            //   titleColor = AppColors.darkSilver;
+            // } else {
+            //   boardColor = AppColors.darkSilver;
+            //   textColor = AppColors.white;
+            //   titleColor = AppColors.grey;
+            // }
             return BlocBuilder<UpdateDataCubit, UpdateDataState>(
               bloc: updateDataCubit,
               buildWhen: (previous, current) =>
@@ -186,7 +205,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           ),
                           Positioned(
                             top: size.height >= size.width
-                                ? 595.h
+                                ? 575.h
                                 : 150.h + size.height / 2 - 24.h,
                             left:
                                 size.height >= size.width ? 0 : size.width / 2,

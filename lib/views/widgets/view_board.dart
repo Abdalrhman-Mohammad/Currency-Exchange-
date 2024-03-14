@@ -126,9 +126,10 @@ class _ViewBoardState extends State<ViewBoard> {
                               },
                               style: GoogleFonts.kanit(
                                 color: widget.textColor,
-                                fontSize: 20.sp,
+                                fontSize:
+                                    size.height >= size.width ? 20.sp : 10.sp,
                                 fontWeight: FontWeight.w500,
-                                height: 1,
+                                height: 1.h,
                               ),
                             ),
                           ),
