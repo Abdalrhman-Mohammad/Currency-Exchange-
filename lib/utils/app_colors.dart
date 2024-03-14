@@ -8,4 +8,3 @@ class AppColors {
   static const Color white = Colors.white;
   static const Color lightgreen = Color.fromRGBO(29, 209, 161, 1);
 }
-//72,84,96

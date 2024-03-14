@@ -77,7 +77,6 @@ class _ViewBoardState extends State<ViewBoard> {
                               decoration: BoxDecoration(
                                 color: widget.boardColor,
                               ),
-                              // scrollbarTheme: ScrollbarThemeData(),
                             ),
                             style: GoogleFonts.kanit(
                               color: widget.textColor,

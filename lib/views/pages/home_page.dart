@@ -20,6 +20,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late TextEditingController controllerOfFirstCurrency;
   late TextEditingController controllerOfSecondCurrency;
+  String lastInputForFirstCurrency = "";
+  String lastInputForSecondCurrency = "";
   late final themeCubit;
   late final UpdateDataCubit updateDataCubit;
   late Animation<Offset> firstBoardAnimation;
@@ -42,7 +44,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       duration: const Duration(seconds: 1),
       vsync: this,
     );
-    // )..repeat(reverse: true);
     firstBoardAnimation =
         Tween(begin: const Offset(0, 0), end: const Offset(0, 1.1)).animate(
             CurvedAnimation(parent: _firstController, curve: Curves.linear));
@@ -50,7 +51,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       duration: const Duration(seconds: 1),
       vsync: this,
     );
-    // )..repeat(reverse: true);
     secondBoardAnimation =
         Tween(begin: const Offset(0, 0), end: const Offset(0, -1.1)).animate(
             CurvedAnimation(parent: _secondController, curve: Curves.linear));
@@ -58,21 +58,32 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   void changeLabels(bool whatEditingNow) {
     if (whatEditingNow) {
+      if (double.tryParse(controllerOfSecondCurrency.text) == null) {
+        controllerOfSecondCurrency.text = lastInputForSecondCurrency;
+        return;
+      }
+      lastInputForSecondCurrency = controllerOfSecondCurrency.text;
       if (controllerOfSecondCurrency.text.isEmpty) {
         controllerOfFirstCurrency.text = "";
         return;
       }
-      controllerOfFirstCurrency.text =
+      lastInputForFirstCurrency = controllerOfFirstCurrency.text =
           (double.parse(controllerOfSecondCurrency.text) * (1 / factor))
-              .toStringAsFixed(3);
+              .toStringAsFixed(4);
     } else {
+      if (double.tryParse(controllerOfFirstCurrency.text) == null) {
+        controllerOfFirstCurrency.text = lastInputForFirstCurrency;
+        return;
+      }
+      lastInputForFirstCurrency = controllerOfFirstCurrency.text;
+
       if (controllerOfFirstCurrency.text.isEmpty) {
         controllerOfSecondCurrency.text = "";
         return;
       }
-      controllerOfSecondCurrency.text =
+      lastInputForSecondCurrency = controllerOfSecondCurrency.text =
           (double.parse(controllerOfFirstCurrency.text) * factor)
-              .toStringAsFixed(3)
+              .toStringAsFixed(4)
               .trimRight();
     }
   }
@@ -134,15 +145,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 ),
               );
             }
-            // } else if (state is ThemeLight) {
-            //   boardColor = AppColors.white;
-            //   textColor = AppColors.black;
-            //   titleColor = AppColors.darkSilver;
-            // } else {
-            //   boardColor = AppColors.darkSilver;
-            //   textColor = AppColors.white;
-            //   titleColor = AppColors.grey;
-            // }
             return BlocBuilder<UpdateDataCubit, UpdateDataState>(
               bloc: updateDataCubit,
               buildWhen: (previous, current) =>
@@ -240,30 +242,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                       controllerOfFirstCurrency,
                                 );
                               },
-                              changeLabels: (bool whatEditingNow) {
-                                if (whatEditingNow) {
-                                  if (controllerOfSecondCurrency.text.isEmpty) {
-                                    controllerOfFirstCurrency.text = "";
-                                    return;
-                                  }
-                                  controllerOfFirstCurrency
-                                      .text = (double.parse(
-                                              controllerOfSecondCurrency.text) *
-                                          (1 / factor))
-                                      .toStringAsFixed(3);
-                                } else {
-                                  if (controllerOfFirstCurrency.text.isEmpty) {
-                                    controllerOfSecondCurrency.text = "";
-                                    return;
-                                  }
-                                  controllerOfSecondCurrency
-                                      .text = (double.parse(
-                                              controllerOfFirstCurrency.text) *
-                                          factor)
-                                      .toStringAsFixed(3)
-                                      .trimRight();
-                                }
-                              },
+                              changeLabels: changeLabels,
                             ),
                           ),
                           Positioned(
@@ -289,30 +268,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                               onTap: () {
                                 scrollController.jumpTo(20.h);
                               },
-                              changeLabels: (bool whatEditingNow) {
-                                if (whatEditingNow) {
-                                  if (controllerOfSecondCurrency.text.isEmpty) {
-                                    controllerOfFirstCurrency.text = "";
-                                    return;
-                                  }
-                                  controllerOfFirstCurrency
-                                      .text = (double.parse(
-                                              controllerOfSecondCurrency.text) *
-                                          (1 / factor))
-                                      .toStringAsFixed(3);
-                                } else {
-                                  if (controllerOfFirstCurrency.text.isEmpty) {
-                                    controllerOfSecondCurrency.text = "";
-                                    return;
-                                  }
-                                  controllerOfSecondCurrency
-                                      .text = (double.parse(
-                                              controllerOfFirstCurrency.text) *
-                                          factor)
-                                      .toStringAsFixed(3)
-                                      .trimRight();
-                                }
-                              },
+                              changeLabels: changeLabels,
                             ),
                           ),
                           Positioned(
